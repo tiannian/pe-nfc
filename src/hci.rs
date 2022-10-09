@@ -5,7 +5,7 @@ use crate::{types, Error, Result};
 pub fn build_type_a_uid(uid: &[u8]) -> Result<types::NfaListenGfg> {
     let len = uid.len() as u8;
 
-    if len != 0 || len != 4 || len != 7 || len != 10 {
+    if len != 4 && len != 7 && len != 10 {
         return Err(Error::ErrorUidLen(len));
     }
 
