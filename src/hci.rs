@@ -30,7 +30,7 @@ pub fn set_uid(path: &str, uid: &[u8]) -> Result<()> {
     let library = unsafe { Library::new(path)? };
 
     let symbol: Symbol<NfaRequestExclusiveRfControl> = unsafe {
-        library.get(b"_Z29NFA_RequestExclusiveRfControlhP15tNFA_LISTEN_CFGPFvhP18tNFA_CONN_EVT_DATAEPFvhP18tNFA_NDEF_EVT_DATAE\n")?
+        library.get(b"_Z29NFA_RequestExclusiveRfControlhP15tNFA_LISTEN_CFGPFvhP18tNFA_CONN_EVT_DATAEPFvhP18tNFA_NDEF_EVT_DATAE")?
     };
 
     let code = unsafe {
@@ -55,7 +55,7 @@ pub fn reset_uid(path: &str) -> Result<()> {
     let library = unsafe { Library::new(path)? };
 
     let symbol: Symbol<NfaReleaseExclusiveRfControl> =
-        unsafe { library.get(b"_Z29NFA_ReleaseExclusiveRfControlv\n")? };
+        unsafe { library.get(b"_Z29NFA_ReleaseExclusiveRfControlv")? };
 
     let code = unsafe { symbol() };
 
