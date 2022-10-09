@@ -1,4 +1,11 @@
+use std::ffi::c_void;
+
 pub type NfaTechnologyMask = u8;
+
+pub const NFA_TECHNOLOGY_MASK_A: u8 = 0x01;
+pub const NFA_TECHNOLOGY_MASK_B: u8 = 0x02;
+pub const NFA_TECHNOLOGY_MASK_F: u8 = 0x04;
+pub const NFA_TECHNOLOGY_MASK_V: u8 = 0x08;
 
 #[repr(C)]
 pub struct NfaListenGfg {
@@ -38,9 +45,15 @@ pub struct NfaListenGfg {
     pub ln_atr_res_config: u8,
 }
 
+pub type NfaConnCallback = extern "C" fn(u8, *const c_void);
+
+pub type NfaNdefCallback = extern "C" fn(u8, *const c_void);
+
 extern "C" {
     pub fn NFA_RequestExclusiveRfControl(
         poll_mask: NfaTechnologyMask,
         p_listen_cfg: *const NfaListenGfg,
+        p_conn_cback: NfaConnCallback,
+        p_ndef_cback: NfaNdefCallback,
     ) -> u8;
 }
