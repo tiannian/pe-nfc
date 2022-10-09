@@ -5,7 +5,7 @@ pub enum Error {
     #[error("error nfa status {0}")]
     NfaStatus(u8),
     #[error("error uid length, Got {0}")]
-    ErrorUidLen(u8),
+    ErrorUidLen(usize),
     #[error(transparent)]
     LibloadingError(#[from] libloading::Error),
 }
