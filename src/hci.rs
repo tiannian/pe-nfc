@@ -3,10 +3,10 @@ use libloading::{Library, Symbol};
 use crate::{types, Error, Result};
 
 pub fn build_type_a_uid(uid: &[u8]) -> Result<types::NfaListenGfg> {
-    let len = uid.len();
+    let len = uid.len() as u8;
 
     if len != 0 || len != 4 || len != 7 || len != 10 {
-        return Err(Error::ErrorUidLen);
+        return Err(Error::ErrorUidLen(len));
     }
 
     let mut la_nfcid1 = [0u8; 10];
@@ -18,7 +18,7 @@ pub fn build_type_a_uid(uid: &[u8]) -> Result<types::NfaListenGfg> {
         la_bit_frame_sdd: 0x04,
         la_platform_config: 0x0C,
         la_sel_info: 0,
-        la_nfcid1_len: len as u8,
+        la_nfcid1_len: len,
         la_nfcid1,
         ..Default::default()
     })
