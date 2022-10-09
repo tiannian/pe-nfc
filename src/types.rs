@@ -8,6 +8,17 @@ pub const NFA_TECHNOLOGY_MASK_F: u8 = 0x04;
 pub const NFA_TECHNOLOGY_MASK_V: u8 = 0x08;
 
 #[repr(C)]
+#[derive(Debug, Clone)]
+pub struct LnAtrResGenBytes([u8; 48]);
+
+impl Default for LnAtrResGenBytes {
+    fn default() -> Self {
+        Self([0u8; 48])
+    }
+}
+
+#[repr(C)]
+#[derive(Debug, Clone, Default)]
 pub struct NfaListenGfg {
     pub la_enable: bool,
     pub la_bit_frame_sdd: u8,
@@ -41,19 +52,23 @@ pub struct NfaListenGfg {
     pub ln_enable: bool,
     pub ln_wt: u8,
     pub ln_atr_res_gen_bytes_len: u8,
-    pub ln_atr_res_gen_bytes: [u8; 48],
+    pub ln_atr_res_gen_byte: LnAtrResGenBytes,
     pub ln_atr_res_config: u8,
 }
 
-pub type NfaConnCallback = extern "C" fn(u8, *const c_void);
+pub type NfaCallback = extern "C" fn(u8, *const c_void);
 
-pub type NfaNdefCallback = extern "C" fn(u8, *const c_void);
-
-extern "C" {
-    pub fn NFA_RequestExclusiveRfControl(
-        poll_mask: NfaTechnologyMask,
-        p_listen_cfg: *const NfaListenGfg,
-        p_conn_cback: NfaConnCallback,
-        p_ndef_cback: NfaNdefCallback,
-    ) -> u8;
+pub extern "C" fn common_callback(ty: u8, ptr: *const c_void) {
+    println!("ty: {}, ptr: {:?}", ty, ptr);
 }
+
+/* extern "C" { */
+/* pub fn NFA_RequestExclusiveRfControl( */
+/*     poll_mask: NfaTechnologyMask, */
+/*     p_listen_cfg: *const NfaListenGfg, */
+/*     p_conn_cback: NfaConnCallback, */
+/*     p_ndef_cback: NfaNdefCallback, */
+/* ) -> u8; */
+/*  */
+/* pub fn NFA_ReleaseExclusiveRfControl() -> u8; */
+/* } */
